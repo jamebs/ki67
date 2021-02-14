@@ -1,0 +1,10 @@
+{
+    "terminal.integrated.shell.linux": "/usr/bin/zsh",
+    "python.linting.enabled": true,
+    "python.linting.pylintEnabled": false,
+    "python.linting.pycodestyleEnabled": true,
+    "files.exclude": {
+        "**/__pycache__": true
+    },
+    "python.pythonPath": "/opt/conda/bin/python",
+}

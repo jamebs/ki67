@@ -1,0 +1,9 @@
+{
+	"name": "Ki67",
+	"dockerComposeFile": "../docker-compose.yml",
+	"service": "app",
+    "workspaceFolder": "/workspace/ki67",
+	"settings": {
+		"terminal.integrated.shell.linux": "/usr/bin/zsh"
+	}
+}
