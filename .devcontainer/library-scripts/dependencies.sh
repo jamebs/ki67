@@ -23,11 +23,15 @@ conda install -yq \
     'numpy=1.20.*' \
     'pandas=1.2.*' \
     'pycodestyle=2.6.*' \
+    'pydocstyle=5.1.*' \
     'pyyaml=5.4.*' \
     'scikit-image=0.18.*' \
     'scikit-learn=0.24.*' \
     'seaborn=0.11.*' \
     'scipy=1.6.*' \
     'tqdm=4.56.*'
+
+echo "Installing pip dependencies..."
+pip install https://github.com/NeuroSYS-pl/magda/archive/main.zip
 
 conda clean --all -fyq
