@@ -1,6 +1,6 @@
 import logging
 from pathlib import Path
-from typing import Union
+from typing import Dict, Union
 
 import numpy as np
 import pandas as pd
@@ -56,6 +56,30 @@ class DataIO:
             self.logger.info(f'Loaded {filepath}')
             return array
 
+    class MultiArray:
+        """Multiple Numpy Arrays IO"""
+
+        def __init__(self, prefix: Union[str, Path], slide: str):
+            name = f'ki67.Exporter.MultiArray:{slide}'
+            self.logger = logging.getLogger(name)
+            self.prefix = prefix if isinstance(prefix, Path) else Path(prefix)
+
+        def filepath(self, name: str) -> Path:
+            return self.prefix / f'{name}.npz'
+
+        def save(self, name: str, **arrays: Dict[str, np.ndarray]) -> Path:
+            filepath = self.filepath(name)
+            filepath.parent.mkdir(parents=True, exist_ok=True)
+            np.savez_compressed(str(filepath), **arrays)
+            self.logger.info(f'Saved {filepath}')
+            return filepath
+
+        def load(self, name: str) -> Dict[str, np.ndarray]:
+            filepath = self.filepath(name)
+            arrays = np.loads(str(filepath))
+            self.logger.info(f'Loaded {filepath}')
+            return arrays
+
     class DataFrame:
         """Pandas Dataframe IO"""
 
@@ -95,4 +119,5 @@ class DataIO:
 
         self.image = self.Image(self.prefix, slidename)
         self.array = self.Array(self.prefix, slidename)
+        self.multiarray = self.MultiArray(self.prefix, slidename)
         self.dataframe = self.DataFrame(self.prefix, slidename)

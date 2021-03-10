@@ -10,6 +10,7 @@ class Request:
 class Shared:
     source: str
     target: str
+    fragment: int
     stride: int
 
 
