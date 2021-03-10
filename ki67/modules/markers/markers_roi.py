@@ -1,5 +1,5 @@
 import numpy as np
-from skimage import draw, morphology, color, exposure
+from skimage import draw, morphology
 from magda.module import Module
 from magda.decorators import finalize, accept, produce, register
 
@@ -27,17 +27,17 @@ class MarkersRoi(Module.Runtime):
             x, y = marker['x'], marker['y']
             yy, xx = draw.disk(
                 center=(int(y), int(x)),
-                radius=16,
+                radius=24,
                 shape=mask.shape[:2],
             )
             mask[yy, xx] = True
 
         mask = morphology.binary_closing(
             image=mask,
-            selem=morphology.selem.rectangle(32, 32),
+            selem=morphology.selem.rectangle(48, 48),
         )
         mask = morphology.binary_closing(
             image=mask,
-            selem=morphology.selem.disk(16),
+            selem=morphology.selem.disk(24),
         )
         return Mask(uid=slide.uid, data=mask.astype(float))

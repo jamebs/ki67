@@ -33,6 +33,14 @@ class MarkersProcessor(Module.Runtime):
         markers['x'] = markers['x'].astype(int) - slide.x_offset
         markers['y'] = markers['y'].astype(int) - slide.y_offset
 
+        max_y, max_x, _ = slide.image.shape
+        markers = markers[
+            (markers['x'] >= 0)
+            & (markers['x'] < max_x)
+            & (markers['y'] >= 0)
+            & (markers['y'] < max_y)
+        ]
+
         return Markers(uid=slide.uid, markers=markers)
 
     @staticmethod
