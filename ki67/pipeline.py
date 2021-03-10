@@ -1,4 +1,5 @@
 import asyncio
+from datetime import datetime
 from pathlib import Path
 from typing import List
 
@@ -28,7 +29,31 @@ class Pipeline:
             )
 
     async def run(self, requests: List[Request]):
-        await asyncio.gather(*[
+        tasks = {
             asyncio.create_task(self.pipeline.run(req))
             for req in requests
-        ])
+        }
+
+        finished = 0
+        total = len(tasks)
+
+        while len(tasks) > 0:
+            done, pending = await asyncio.wait(
+                tasks,
+                return_when=asyncio.FIRST_COMPLETED
+            )
+            tasks = pending
+            finished += len(done)
+
+            now = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+            print(
+                '\u001B[33m'
+                f'[{now}] '
+                '\u001B[34m'
+                'Pipeline: '
+                '\u001B[1;32m'
+                f'Done {finished} of {total}'
+                '\u001B[22;39m'
+            )
+
+        await self.pipeline.close()
