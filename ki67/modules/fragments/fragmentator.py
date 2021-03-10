@@ -20,7 +20,7 @@ class Fragmentator(Module.Runtime):
         shared = Shared(**self.shared_parameters)
         slide: Slide = data.get(Slide)
 
-        size = self.parameters['size']
+        size = shared.fragment
         shape = slide.image.shape
 
         indices = [
@@ -32,13 +32,12 @@ class Fragmentator(Module.Runtime):
         return Fragments(
             uid=slide.uid,
             fragments=pd.DataFrame([
-                self.create_fragment(x, y)
+                self.create_fragment(x, y, size)
                 for x, y in indices
             ]),
         )
 
-    def create_fragment(self, x1, y1):
-        size = self.parameters['size']
+    def create_fragment(self, x1, y1, size):
         y2 = y1 + size
         x2 = x1 + size
         return pd.Series(
