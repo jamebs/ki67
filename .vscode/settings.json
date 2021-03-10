@@ -9,4 +9,5 @@
     "python.pythonPath": "/opt/conda/bin/python",
     "jupyter.notebookFileRoot": "/workspace/ki67",
     "remote.autoForwardPorts": false,
+    "jupyter.jupyterServerType": "local",
 }

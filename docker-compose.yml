@@ -4,6 +4,7 @@ services:
     build:
       context: .
       dockerfile: .devcontainer/Dockerfile
+    shm_size: 8gb
     image: ki67-research:latest
     container_name: ki67-research
     deploy:
