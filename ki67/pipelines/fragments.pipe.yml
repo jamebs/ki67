@@ -1,0 +1,116 @@
+modules:
+  - name: slide
+    type: SlideImporter
+    group: fragments
+    parameters:
+      filename: adjusted
+
+  - name: markers
+    type: MarkersImporter
+    group: fragments
+    parameters:
+      filename: markers
+
+  - name: fragmentator
+    type: Fragmentator
+    group: fragments
+    depends_on:
+      - slide
+
+  - name: fragments-exporter
+    type: Exporter
+    group: fragments
+    depends_on:
+      - fragmentator
+    parameters:
+      filename: fragments-f128-s32
+
+  # Labelers
+  - name: labeler-m0
+    type: Labeler
+    group: labelers
+    depends_on:
+      - slide
+      - markers
+      - fragmentator
+    parameters:
+      margin: 0
+
+  - name: labeler-m0-exporter
+    type: Exporter
+    group: labelers
+    depends_on:
+      - labeler-m0
+    parameters:
+      filename: labels-f128-s32-m0
+
+  - name: labeler-m8
+    type: Labeler
+    group: labelers
+    depends_on:
+      - slide
+      - markers
+      - fragmentator
+    parameters:
+      margin: 8
+
+  - name: labeler-m8-exporter
+    type: Exporter
+    group: labelers
+    depends_on:
+      - labeler-m8
+    parameters:
+      filename: labels-f128-s32-m8
+
+  - name: labeler-m16
+    type: Labeler
+    group: labelers
+    depends_on:
+      - slide
+      - markers
+      - fragmentator
+    parameters:
+      margin: 16
+
+  - name: labeler-m16-exporter
+    type: Exporter
+    group: labelers
+    depends_on:
+      - labeler-m16
+    parameters:
+      filename: labels-f128-s32-m16
+
+  - name: labeler-m32
+    type: Labeler
+    group: labelers
+    depends_on:
+      - slide
+      - markers
+      - fragmentator
+    parameters:
+      margin: 32
+
+  - name: labeler-m32-exporter
+    type: Exporter
+    group: labelers
+    depends_on:
+      - labeler-m32
+    parameters:
+      filename: labels-f128-s32-m32
+
+
+groups:
+  - name: fragments
+    options:
+      replicas: 2
+
+  - name: labelers
+    options:
+      replicas: 6
+
+
+shared_parameters:
+  source: data/source
+  target: data/results
+  fragment: 128
+  stride: 32

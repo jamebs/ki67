@@ -1,0 +1,112 @@
+modules:
+  - name: slide
+    type: SlideImporter
+    group: default
+    parameters:
+      filename: adjusted
+
+  # Labelers
+  # Margin 0
+  - name: labeler-m0
+    type: LabelerImporter
+    group: default
+    parameters:
+      filename: labels-f128-s32-m0
+      margin: 0
+
+  - name: examples-builder-m0
+    type: ExamplesBuilder
+    group: default
+    depends_on:
+      - slide
+      - labeler-m0
+
+  - name: examples-builder-m0-exporter
+    type: Exporter
+    group: default
+    depends_on:
+      - examples-builder-m0
+    parameters:
+      filename: examples-f128-s32-m0
+
+  # Margin 8
+  - name: labeler-m8
+    type: LabelerImporter
+    group: default
+    parameters:
+      filename: labels-f128-s32-m8
+      margin: 8
+
+  - name: examples-builder-m8
+    type: ExamplesBuilder
+    group: default
+    depends_on:
+      - slide
+      - labeler-m8
+
+  - name: examples-builder-m8-exporter
+    type: Exporter
+    group: default
+    depends_on:
+      - examples-builder-m8
+    parameters:
+      filename: examples-f128-s32-m8
+
+  # Margin 16
+  - name: labeler-m16
+    type: LabelerImporter
+    group: default
+    parameters:
+      filename: labels-f128-s32-m16
+      margin: 16
+
+  - name: examples-builder-m16
+    type: ExamplesBuilder
+    group: default
+    depends_on:
+      - slide
+      - labeler-m16
+
+  - name: examples-builder-m16-exporter
+    type: Exporter
+    group: default
+    depends_on:
+      - examples-builder-m16
+    parameters:
+      filename: examples-f128-s32-m16
+
+  # Margin 32
+  - name: labeler-m32
+    type: LabelerImporter
+    group: default
+    parameters:
+      filename: labels-f128-s32-m32
+      margin: 32
+
+  - name: examples-builder-m32
+    type: ExamplesBuilder
+    group: default
+    depends_on:
+      - slide
+      - labeler-m32
+
+  - name: examples-builder-m32-exporter
+    type: Exporter
+    group: default
+    depends_on:
+      - examples-builder-m32
+    parameters:
+      filename: examples-f128-s32-m32
+
+
+groups:
+  - name: default
+    options:
+      replicas: 6
+
+
+shared_parameters:
+  source: data/source
+  target: data/results
+  fragment: 128
+  stride: 32

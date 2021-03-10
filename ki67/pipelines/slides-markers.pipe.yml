@@ -1,0 +1,109 @@
+modules:
+  - name: loader
+    type: SlideLoader
+    group: slide
+
+  - name: cropper
+    type: SlideCropper
+    group: slide
+    depends_on:
+      - loader
+
+  - name: base-exporter
+    type: Exporter
+    group: slide
+    depends_on:
+      - cropper
+    parameters:
+      filename: base
+
+  - name: equalizer
+    type: SlideEqualizer
+    group: slide
+    depends_on:
+      - cropper
+
+  - name: adjusted-exporter
+    type: Exporter
+    group: slide
+    depends_on:
+      - equalizer
+    parameters:
+      filename: adjusted
+
+  # Markers
+  - name: markers
+    type: MarkersProcessor
+    group: markers
+    depends_on:
+      - equalizer
+
+  - name: markers-exporter
+    type: Exporter
+    group: markers
+    depends_on:
+      - markers
+    parameters:
+      filename: markers
+
+  - name: markers-roi
+    type: MarkersRoi
+    group: markers
+    depends_on:
+      - cropper
+      - markers
+
+  - name: markers-roi-exporter
+    type: Exporter
+    group: markers
+    depends_on:
+      - markers-roi
+    parameters:
+      filename: gt-roi
+
+  - name: markers-roi-preview
+    type: MarkersRoiPreview
+    group: markers
+    depends_on:
+      - cropper
+      - markers-roi
+
+  - name: markers-roi-preview-exporter
+    type: Exporter
+    group: markers
+    depends_on:
+      - markers-roi-preview
+    parameters:
+      filename: gt-roi-preview
+
+  - name: markers-preview
+    type: MarkersPreview
+    group: markers
+    depends_on:
+      - cropper
+      - markers
+
+  - name: markers-preview-exporter
+    type: Exporter
+    group: markers
+    depends_on:
+      - markers-preview
+    parameters:
+      filename: markers-preview
+
+
+groups:
+  - name: slide
+    options:
+      replicas: 6
+
+  - name: markers
+    options:
+      replicas: 6
+
+
+shared_parameters:
+  source: data/source
+  target: data/results
+  fragment: 128
+  stride: 32
