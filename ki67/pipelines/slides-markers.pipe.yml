@@ -8,6 +8,8 @@ modules:
     group: slide
     depends_on:
       - loader
+    parameters:
+      stride: 16
 
   - name: base-exporter
     type: Exporter
@@ -22,6 +24,8 @@ modules:
     group: slide
     depends_on:
       - cropper
+    parameters:
+      kernel: 64
 
   - name: adjusted-exporter
     type: Exporter
@@ -105,5 +109,4 @@ groups:
 shared_parameters:
   source: data/source
   target: data/results
-  fragment: 128
-  stride: 32
+  fragment: 192

@@ -1,8 +1,9 @@
+from dataclasses import dataclass
+
 import numpy as np
 from magda.module import Module
 from magda.decorators import finalize, produce, register, accept
 
-from ki67.common import Shared
 from ki67.modules.utils.logging import with_logger
 from ki67.interfaces.slide import Slide
 
@@ -26,24 +27,24 @@ class SlideCropper(Module.Runtime):
     divides by fragmentation stride completely.
     """
 
-    @property
-    def shared(self) -> Shared:
-        return Shared(**self.shared_parameters)
+    @dataclass(frozen=True)
+    class Parameters:
+        stride: int
 
     @with_logger
-    def run(self, data: Module.ResultSet, **kwargs):
+    def run(self, data: Module.ResultSet, *args, **kwargs):
+        params = self.Parameters(**self.parameters)
         slide: Slide = data.get(Slide)
-        stride = self.shared.stride
 
         x_border = np.all(slide.image == 255, (0, 2))
         y_border = np.all(slide.image == 255, (1, 2))
         x, y = np.argmin(x_border), np.argmin(y_border)
         w, h = np.sum(x_border == False), np.sum(y_border == False)  # noqa
 
-        x += (w % stride) // 2
-        y += (h % stride) // 2
-        w -= w % stride
-        h -= h % stride
+        x += (w % params.stride) // 2
+        y += (h % params.stride) // 2
+        w -= w % params.stride
+        h -= h % params.stride
 
         return Slide(
             uid=slide.uid,

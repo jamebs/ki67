@@ -103,6 +103,15 @@ class DataIO:
             self.logger.info(f'Loaded {filepath}')
             return df
 
+    class TFRecord:
+        """Tensorflow Records IO"""
+
+        def __init__(self, prefix: Union[str, Path]):
+            self.prefix = prefix if isinstance(prefix, Path) else Path(prefix)
+
+        def filepath(self, name: str) -> Path:
+            return self.prefix / f'{name}.tfrecords'
+
     def __init__(self, prefix: Union[str, Path], slidename: str):
         """
         Parameters
@@ -121,3 +130,4 @@ class DataIO:
         self.array = self.Array(self.prefix, slidename)
         self.multiarray = self.MultiArray(self.prefix, slidename)
         self.dataframe = self.DataFrame(self.prefix, slidename)
+        self.tfrecord = self.TFRecord(self.prefix)

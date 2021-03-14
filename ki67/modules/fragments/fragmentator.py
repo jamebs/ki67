@@ -1,3 +1,4 @@
+from dataclasses import dataclass
 import pandas as pd
 from magda.module import Module
 from magda.decorators import finalize, produce, register, accept
@@ -15,9 +16,14 @@ from ki67.interfaces.fragments import Fragments
 class Fragmentator(Module.Runtime):
     """ Fragmentator """
 
+    @dataclass(frozen=True)
+    class Parameters:
+        step: int
+
     @with_logger
     def run(self, data: Module.ResultSet, **kwargs):
         shared = Shared(**self.shared_parameters)
+        params = self.Parameters(**self.parameters)
         slide: Slide = data.get(Slide)
 
         size = shared.fragment
@@ -25,8 +31,8 @@ class Fragmentator(Module.Runtime):
 
         indices = [
             (x, y)
-            for x in range(0, shape[1] - size, shared.stride)
-            for y in range(0, shape[0] - size, shared.stride)
+            for x in range(0, shape[1] - size, params.step)
+            for y in range(0, shape[0] - size, params.step)
         ]
 
         return Fragments(

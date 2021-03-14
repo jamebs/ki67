@@ -1,116 +1,59 @@
 modules:
   - name: slide
     type: SlideImporter
-    group: fragments
+    group: default
     parameters:
       filename: adjusted
 
   - name: markers
     type: MarkersImporter
-    group: fragments
+    group: default
     parameters:
       filename: markers
 
-  - name: fragmentator
+  - name: fragmentator-s96
     type: Fragmentator
-    group: fragments
+    group: default
     depends_on:
       - slide
-
-  - name: fragments-exporter
-    type: Exporter
-    group: fragments
-    depends_on:
-      - fragmentator
     parameters:
-      filename: fragments-f128-s32
+      step: 96
 
-  # Labelers
-  - name: labeler-m0
+  - name: labeler-s96-m16
     type: Labeler
-    group: labelers
+    group: default
     depends_on:
       - slide
       - markers
-      - fragmentator
-    parameters:
-      margin: 0
-
-  - name: labeler-m0-exporter
-    type: Exporter
-    group: labelers
-    depends_on:
-      - labeler-m0
-    parameters:
-      filename: labels-f128-s32-m0
-
-  - name: labeler-m8
-    type: Labeler
-    group: labelers
-    depends_on:
-      - slide
-      - markers
-      - fragmentator
-    parameters:
-      margin: 8
-
-  - name: labeler-m8-exporter
-    type: Exporter
-    group: labelers
-    depends_on:
-      - labeler-m8
-    parameters:
-      filename: labels-f128-s32-m8
-
-  - name: labeler-m16
-    type: Labeler
-    group: labelers
-    depends_on:
-      - slide
-      - markers
-      - fragmentator
+      - fragmentator-s96
     parameters:
       margin: 16
 
-  - name: labeler-m16-exporter
+  - name: labeler-s96-m16-exporter
     type: Exporter
-    group: labelers
+    group: default
     depends_on:
-      - labeler-m16
+      - labeler-s96-m16
     parameters:
-      filename: labels-f128-s32-m16
+      filename: labels-f192-s96-m16
 
-  - name: labeler-m32
-    type: Labeler
-    group: labelers
+  - name: examples-builder
+    type: ExamplesBuilder
+    group: default
     depends_on:
       - slide
-      - markers
-      - fragmentator
+      - labeler-s96-m16
     parameters:
-      margin: 32
-
-  - name: labeler-m32-exporter
-    type: Exporter
-    group: labelers
-    depends_on:
-      - labeler-m32
-    parameters:
-      filename: labels-f128-s32-m32
+      filename: examples-f192-s96-m16
 
 
 groups:
-  - name: fragments
+  - name: default
     options:
-      replicas: 2
-
-  - name: labelers
-    options:
-      replicas: 6
+      replicas: 8
 
 
 shared_parameters:
   source: data/source
   target: data/results
-  fragment: 128
-  stride: 32
+  fragment: 192
