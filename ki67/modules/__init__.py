@@ -1,1 +1,1 @@
-from . import io, slide, markers, fragments
+from . import io, slide, markers, fragments, training
