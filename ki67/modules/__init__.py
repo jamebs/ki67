@@ -1,1 +1,6 @@
-from . import io, slide, markers, fragments, training, cnn
+from . import (
+    io,
+    slide, markers, fragments,
+    training, cnn,
+    masks,
+)

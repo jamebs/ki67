@@ -51,14 +51,15 @@ class Exporter(Module.Runtime):
             io.image.save(params.filename, asset.data)
         elif data.has(Mask):
             mask: Mask = data.get(Mask)
-            mask = color.gray2rgb(
+            mask_preview = color.gray2rgb(
                 exposure.rescale_intensity(
                     image=mask.data,
                     in_range=mask.vrange,
                     out_range=(0, 255),
                 ).astype(np.uint8),
             )
-            io.image.save(params.filename, mask)
+            io.array.save(params.filename, mask.data)
+            io.image.save(params.filename, mask_preview)
         elif data.has(Markers):
             asset: Markers = data.get(Markers)
             io.dataframe.save(params.filename, asset.markers, index=False)
