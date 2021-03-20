@@ -1,32 +1,27 @@
 import asyncio
+from abc import ABC, abstractmethod
 from datetime import datetime
-from pathlib import Path
-from typing import List
+from typing import List, Type, Optional
 
-from magda import ConfigReader
 from magda.module import ModuleFactory
 from magda.pipeline.parallel import init, ParallelPipeline
 
 from ki67.common import Request, Context
-import ki67.modules as modules
 
 
-class Pipeline:
-    def __init__(self, factory=ModuleFactory):
+class BasePipeline(ABC):
+    def __init__(self, factory: Type[ModuleFactory] = ModuleFactory):
         init()
         self.factory = factory
+        self.pipeline: Optional[ParallelPipeline] = None
 
     @property
     def context(self) -> Context:
         return Context()
 
-    def build(self, config_path: Path):
-        with open(config_path) as config:
-            self.pipeline: ParallelPipeline.Runtime = ConfigReader.read(
-                config=config,
-                module_factory=self.factory,
-                context=self.context,
-            )
+    @abstractmethod
+    def build(self, *args, **kwargs):
+        raise NotImplementedError()
 
     async def run(self, requests: List[Request]):
         tasks = {
