@@ -1,0 +1,13 @@
+data
+notebooks
+
+**/tmp
+**/build
+**/dist
+**/__pycache__
+.pytest_cache
+
+**/Thumbs.db
+**/.DS_Store
+**/.cache
+.git
