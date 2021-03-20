@@ -1,0 +1,43 @@
+modules:
+  - name: slide
+    type: SlideImporter
+    group: default
+    parameters:
+      filename: adjusted
+
+  - name: labeler-importer
+    type: LabelerImporter
+    group: default
+    parameters:
+      filename: eval-labels-f192-s16-m16
+      margin: 16
+
+  - name: cnn
+    type: CNN
+    group: default
+    depends_on:
+      - slide
+      - labeler-importer
+    parameters:
+      model: data/experiments/densenet169-f192-s96-m16-rgb/Charlie/weights.hdf5
+
+  - name: prediction-exporter
+    type: Exporter
+    group: default
+    depends_on:
+      - cnn
+    parameters:
+      filename: predictions-f192-s16-m16-Charlie
+
+groups:
+  - name: default
+    options:
+      replicas: 2
+      num_gpus: 1
+
+
+shared_parameters:
+  source: data/source
+  target: data/results
+  experiments: data/experiments
+  fragment: 192

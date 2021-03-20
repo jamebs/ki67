@@ -1,0 +1,15 @@
+modules:
+  - name: splitter
+    type: Splitter
+    parameters:
+      testing: 20
+      shards:
+        - Amy
+        - Ben
+        - Charlie
+
+shared_parameters:
+  source: data/source
+  target: data/results
+  experiments: data/experiments
+  fragment: 192

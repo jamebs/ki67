@@ -1,0 +1,51 @@
+modules:
+  - name: prediction-amy
+    type: PredictionImporter
+    group: default
+    parameters:
+      filename: predictions-f192-s16-m16-Amy
+
+  - name: prediction-ben
+    type: PredictionImporter
+    group: default
+    parameters:
+      filename: predictions-f192-s16-m16-Ben
+
+  - name: prediction-charlie
+    type: PredictionImporter
+    group: default
+    parameters:
+      filename: predictions-f192-s16-m16-Charlie
+
+  - name: prediction-ensemble
+    type: EnsemblePredictions
+    group: default
+    depends_on:
+      - prediction-amy
+      - prediction-ben
+      - prediction-charlie
+    parameters:
+      classifiers:
+        prediction-amy: amy
+        prediction-ben: ben
+        prediction-charlie: charlie
+
+  - name: prediction-exporter
+    type: Exporter
+    group: default
+    depends_on:
+      - prediction-ensemble
+    parameters:
+      filename: predictions-f192-s16-m16-Ensemble
+
+groups:
+  - name: default
+    options:
+      replicas: 8
+
+
+shared_parameters:
+  source: data/source
+  target: data/results
+  experiments: data/experiments
+  fragment: 192
