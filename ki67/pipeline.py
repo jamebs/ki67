@@ -20,9 +20,9 @@ class Pipeline:
     def context(self) -> Context:
         return Context()
 
-    async def build(self, config_path: Path):
+    def build(self, config_path: Path):
         with open(config_path) as config:
-            self.pipeline: ParallelPipeline.Runtime = await ConfigReader.read(
+            self.pipeline: ParallelPipeline.Runtime = ConfigReader.read(
                 config=config,
                 module_factory=self.factory,
                 context=self.context,

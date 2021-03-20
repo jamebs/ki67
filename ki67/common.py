@@ -1,4 +1,5 @@
-from dataclasses import dataclass
+from dataclasses import dataclass, field
+from typing import Optional
 
 
 @dataclass(frozen=True)
@@ -11,7 +12,7 @@ class Shared:
     source: str
     target: str
     fragment: int
-    stride: int
+    experiments: Optional[str] = field(default=None)
 
 
 @dataclass(frozen=True)

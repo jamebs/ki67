@@ -13,11 +13,16 @@ from ki67.interfaces.image import Image
 from ki67.interfaces.mask import Mask
 from ki67.interfaces.fragments import Fragments
 from ki67.interfaces.labels import Labels
+from ki67.interfaces.predictions import Predictions
 from ki67.interfaces.train_examples import TrainExamples
 from ki67.services.io import DataIO
 
 
-@accept(Slide, Markers, Image, Mask, Fragments, Labels, TrainExamples)
+@accept(
+    Slide, Image, Mask,
+    Markers, Fragments, Labels, Predictions,
+    TrainExamples,
+)
 @register('Exporter')
 @finalize
 class Exporter(Module.Runtime):
@@ -63,6 +68,9 @@ class Exporter(Module.Runtime):
         elif data.has(Labels):
             asset: Labels = data.get(Labels)
             io.dataframe.save(params.filename, asset.fragments, index=False)
+        elif data.has(Predictions):
+            asset: Predictions = data.get(Predictions)
+            io.dataframe.save(params.filename, asset.predictions, index=False)
         elif data.has(TrainExamples):
             asset: TrainExamples = data.get(TrainExamples)
             io.multiarray.save(
