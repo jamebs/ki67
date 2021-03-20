@@ -1,0 +1,88 @@
+modules:
+  - name: slide
+    type: SlideImporter
+    group: default
+    parameters:
+      filename: base
+
+  - name: prediction-amy
+    type: PredictionImporter
+    group: default
+    parameters:
+      filename: predictions-f192-s16-m16-Amy
+
+  # Fuzzy Mask
+  - name: fuzzy-mask
+    type: Fuzzificator
+    group: default
+    depends_on:
+      - slide
+      - prediction-amy
+
+  - name: fuzzy-mask-exporter
+    type: Exporter
+    group: default
+    depends_on:
+      - fuzzy-mask
+    parameters:
+      filename: fuzzy-mask-Amy
+
+  - name: fuzzy-mask-roi-preview
+    type: MaskRoiPreview
+    group: default
+    depends_on:
+      - slide
+      - fuzzy-mask
+
+  - name: fuzzy-mask-roi-preview-exporter
+    type: Exporter
+    group: default
+    depends_on:
+      - fuzzy-mask-roi-preview
+    parameters:
+      filename: fuzzy-mask-roi-preview-Amy
+
+  # Crips Mask
+  - name: crisp-mask
+    type: Defuzzificator
+    group: default
+    depends_on:
+      - fuzzy-mask
+    parameters:
+      kernel: 16
+      min_area: 18432 # 2*96*96
+      threshold: 0.5
+
+  - name: crisp-mask-exporter
+    type: Exporter
+    group: default
+    depends_on:
+      - crisp-mask
+    parameters:
+      filename: crisp-mask-Amy
+
+  - name: crisp-mask-roi-preview
+    type: MaskRoiPreview
+    group: default
+    depends_on:
+      - slide
+      - crisp-mask
+
+  - name: crisp-mask-roi-preview-exporter
+    type: Exporter
+    group: default
+    depends_on:
+      - crisp-mask-roi-preview
+    parameters:
+      filename: crisp-mask-roi-preview-Amy
+
+groups:
+  - name: default
+    options:
+      replicas: 8
+
+
+shared_parameters:
+  source: data/source
+  target: data/results
+  fragment: 192
