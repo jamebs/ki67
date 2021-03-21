@@ -52,7 +52,7 @@ class DataIO:
 
         def load(self, name: str) -> np.ndarray:
             filepath = self.filepath(name)
-            array = np.loads(str(filepath))['arr']
+            array = np.load(str(filepath))['arr']
             self.logger.info(f'Loaded {filepath}')
             return array
 
@@ -76,7 +76,7 @@ class DataIO:
 
         def load(self, name: str) -> Dict[str, np.ndarray]:
             filepath = self.filepath(name)
-            arrays = np.loads(str(filepath))
+            arrays = np.load(str(filepath))
             self.logger.info(f'Loaded {filepath}')
             return arrays
 

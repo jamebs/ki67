@@ -4,14 +4,13 @@ from datetime import datetime
 from typing import List, Type, Optional
 
 from magda.module import ModuleFactory
-from magda.pipeline.parallel import init, ParallelPipeline
+from magda.pipeline.parallel import ParallelPipeline
 
 from ki67.common import Request, Context
 
 
 class BasePipeline(ABC):
     def __init__(self, factory: Type[ModuleFactory] = ModuleFactory):
-        init()
         self.factory = factory
         self.pipeline: Optional[ParallelPipeline] = None
 
