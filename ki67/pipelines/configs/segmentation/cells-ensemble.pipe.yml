@@ -1,0 +1,62 @@
+modules:
+  - name: slide
+    type: SlideImporter
+    group: default
+    parameters:
+      filename: adjusted
+
+  - name: slide-preview
+    type: SlideImporter
+    group: default
+    parameters:
+      filename: base
+
+  - name: mask
+    type: MaskImporter
+    group: default
+    parameters:
+      filename: crisp-mask-Ensemble
+
+  - name: cells
+    type: Segmentator
+    group: default
+    depends_on:
+      - slide
+      - mask
+    parameters:
+      min_area: 144
+
+  - name: cells-exporter
+    type: Exporter
+    group: default
+    depends_on:
+      - cells
+    parameters:
+      filename: cells-Ensemble
+
+  - name: preview
+    type: CellsPreview
+    group: default
+    depends_on:
+      - slide-preview
+      - cells
+
+  - name: cells-preview-exporter
+    type: Exporter
+    group: default
+    depends_on:
+      - preview
+    parameters:
+      filename: cells-Ensemble
+
+
+groups:
+  - name: default
+    options:
+      replicas: 8
+
+
+shared_parameters:
+  source: data/source
+  target: data/results
+  fragment: 192
