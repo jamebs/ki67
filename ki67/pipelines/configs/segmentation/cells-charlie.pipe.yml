@@ -3,51 +3,45 @@ modules:
     type: SlideImporter
     group: default
     parameters:
-      filename: adjusted
-
-  - name: slide-preview
-    type: SlideImporter
-    group: default
-    parameters:
       filename: base
 
-  - name: mask
+  - name: crisp-mask
     type: MaskImporter
     group: default
     parameters:
-      filename: crisp-mask-Charlie
+      filename: crisp-mask-charlie
 
-  - name: cells
+  - name: crisp-cells
     type: Segmentator
     group: default
     depends_on:
       - slide
-      - mask
+      - crisp-mask
     parameters:
       min_area: 144
 
-  - name: cells-exporter
+  - name: crisp-cells-exporter
     type: Exporter
     group: default
     depends_on:
-      - cells
+      - crisp-cells
     parameters:
-      filename: cells-Charlie
+      filename: crisp-cells-charlie
 
   - name: preview
     type: CellsPreview
     group: default
     depends_on:
-      - slide-preview
-      - cells
+      - slide
+      - crisp-cells
 
-  - name: cells-preview-exporter
+  - name: crisp-cells-preview-exporter
     type: Exporter
     group: default
     depends_on:
       - preview
     parameters:
-      filename: cells-Charlie
+      filename: crisp-cells-preview-charlie
 
 
 groups:
@@ -59,4 +53,4 @@ groups:
 shared_parameters:
   source: data/source
   target: data/results
-  fragment: 192
+  fragment: 96

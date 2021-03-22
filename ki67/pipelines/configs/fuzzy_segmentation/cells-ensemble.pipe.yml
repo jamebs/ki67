@@ -3,19 +3,13 @@ modules:
     type: SlideImporter
     group: default
     parameters:
-      filename: adjusted
-
-  - name: slide-preview
-    type: SlideImporter
-    group: default
-    parameters:
       filename: base
 
   - name: fuzzy-mask
     type: MaskImporter
     group: default
     parameters:
-      filename: fuzzy-mask-Ensemble
+      filename: fuzzy-mask-ensemble
 
   - name: fuzzy-cells
     type: FuzzySegmentator
@@ -32,13 +26,13 @@ modules:
     depends_on:
       - fuzzy-cells
     parameters:
-      filename: fuzzy-cells-Ensemble
+      filename: fuzzy-cells-ensemble
 
   - name: preview
     type: FuzzyCellsPreview
     group: default
     depends_on:
-      - slide-preview
+      - slide
       - fuzzy-cells
 
   - name: fuzzy-cells-preview-exporter
@@ -47,7 +41,7 @@ modules:
     depends_on:
       - preview
     parameters:
-      filename: fuzzy-cells-preview-Ensemble
+      filename: fuzzy-cells-preview-ensemble
 
 
 groups:
@@ -59,4 +53,4 @@ groups:
 shared_parameters:
   source: data/source
   target: data/results
-  fragment: 192
+  fragment: 96

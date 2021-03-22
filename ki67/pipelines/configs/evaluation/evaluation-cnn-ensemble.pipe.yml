@@ -3,19 +3,19 @@ modules:
     type: PredictionImporter
     group: default
     parameters:
-      filename: predictions-f192-s16-m16-Amy
+      filename: predictions-f96-s16-m8-amy
 
   - name: prediction-ben
     type: PredictionImporter
     group: default
     parameters:
-      filename: predictions-f192-s16-m16-Ben
+      filename: predictions-f96-s16-m8-ben
 
   - name: prediction-charlie
     type: PredictionImporter
     group: default
     parameters:
-      filename: predictions-f192-s16-m16-Charlie
+      filename: predictions-f96-s16-m8-charlie
 
   - name: prediction-ensemble
     type: EnsemblePredictions
@@ -36,7 +36,7 @@ modules:
     depends_on:
       - prediction-ensemble
     parameters:
-      filename: predictions-f192-s16-m16-Ensemble
+      filename: predictions-f96-s16-m8-ensemble
 
 groups:
   - name: default
@@ -48,4 +48,4 @@ shared_parameters:
   source: data/source
   target: data/results
   experiments: data/experiments
-  fragment: 192
+  fragment: 96

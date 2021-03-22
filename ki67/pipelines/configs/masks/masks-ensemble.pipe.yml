@@ -9,7 +9,7 @@ modules:
     type: PredictionImporter
     group: default
     parameters:
-      filename: predictions-f192-s16-m16-Ensemble
+      filename: predictions-f96-s16-m8-ensemble
 
   # Fuzzy Mask
   - name: fuzzy-mask
@@ -25,7 +25,7 @@ modules:
     depends_on:
       - fuzzy-mask
     parameters:
-      filename: fuzzy-mask-Ensemble
+      filename: fuzzy-mask-ensemble
 
   - name: fuzzy-mask-roi-preview
     type: MaskRoiPreview
@@ -40,7 +40,7 @@ modules:
     depends_on:
       - fuzzy-mask-roi-preview
     parameters:
-      filename: fuzzy-mask-roi-preview-Ensemble
+      filename: fuzzy-mask-roi-preview-ensemble
 
   # Crips Mask
   - name: crisp-mask
@@ -59,7 +59,7 @@ modules:
     depends_on:
       - crisp-mask
     parameters:
-      filename: crisp-mask-Ensemble
+      filename: crisp-mask-ensemble
 
   - name: crisp-mask-roi-preview
     type: MaskRoiPreview
@@ -74,7 +74,7 @@ modules:
     depends_on:
       - crisp-mask-roi-preview
     parameters:
-      filename: crisp-mask-roi-preview-Ensemble
+      filename: crisp-mask-roi-preview-ensemble
 
 groups:
   - name: default
@@ -85,4 +85,4 @@ groups:
 shared_parameters:
   source: data/source
   target: data/results
-  fragment: 192
+  fragment: 96

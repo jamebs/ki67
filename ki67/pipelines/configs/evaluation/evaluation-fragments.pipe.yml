@@ -11,7 +11,7 @@ modules:
     parameters:
       filename: markers
 
-  - name: fragmentator-s16
+  - name: fragmentator
     type: Fragmentator
     group: default
     depends_on:
@@ -19,23 +19,23 @@ modules:
     parameters:
       step: 16
 
-  - name: labeler-s16-m16
+  - name: labeler
     type: Labeler
     group: default
     depends_on:
       - slide
       - markers
-      - fragmentator-s16
+      - fragmentator
     parameters:
-      margin: 16
+      margin: 8
 
-  - name: labeler-s16-m16-exporter
+  - name: labeler-exporter
     type: Exporter
     group: default
     depends_on:
-      - labeler-s16-m16
+      - labeler
     parameters:
-      filename: eval-labels-f192-s16-m16
+      filename: labels-f96-s16-m8
 
 
 groups:
@@ -48,4 +48,4 @@ shared_parameters:
   source: data/source
   target: data/results
   experiments: data/experiments
-  fragment: 192
+  fragment: 96

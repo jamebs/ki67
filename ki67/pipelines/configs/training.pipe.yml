@@ -12,4 +12,4 @@ shared_parameters:
   source: data/source
   target: data/results
   experiments: data/experiments
-  fragment: 192
+  fragment: 64
