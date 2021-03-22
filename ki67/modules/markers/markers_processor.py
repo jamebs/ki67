@@ -22,9 +22,12 @@ class MarkersProcessor(Module.Runtime):
         slide: Slide = data.get(Slide)
 
         parent = Path(slide.filepath).parent
-        if (xml_file := parent / f'{slide.uid}.xml').exists():
+        xml_file = parent / f'{slide.uid}.xml'
+        csv_file = parent / f'{slide.uid}.csv'
+
+        if xml_file.exists():
             markers = self._process_xml(xml_file)
-        elif (csv_file := parent / f'{slide.uid}.csv').exists():
+        elif csv_file.exists():
             markers = pd.read_csv(csv_file)
         else:
             raise Exception('Bad extension')

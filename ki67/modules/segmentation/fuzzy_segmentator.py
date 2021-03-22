@@ -1,5 +1,5 @@
 from dataclasses import dataclass, field
-from typing import Optional, Tuple
+from typing import Optional
 
 import numpy as np
 from skimage import color, exposure, morphology, filters
@@ -24,11 +24,13 @@ class FuzzySegmentator(Module.Runtime):
     @dataclass(frozen=True)
     class Parameters:
         min_area: int
-        bias: Optional[Tuple[float, float]] = field(default=None)
-        bias_factor: float = field(default=0.5)
+        threshold_positive: Optional[float] = field(default=None)
+        threshold_all: Optional[float] = field(default=None)
+        factor: float = field(default=0.5)
 
     @with_logger
     def run(self, data: Module.ResultSet, **kwargs):
+        params = self.Parameters(**self.parameters)
         slide: Slide = data.get(Slide)
         mask: Mask = data.get(Mask)
 
@@ -40,6 +42,7 @@ class FuzzySegmentator(Module.Runtime):
                 out_range=(0, 1),
             ),
             mask.data,
+            bias=params.threshold_positive,
         )
 
         all, _ = self._segmentate(
@@ -49,6 +52,7 @@ class FuzzySegmentator(Module.Runtime):
             ),
             mask.data,
             pmask,
+            bias=params.threshold_all,
         )
 
         return FuzzyCells(
@@ -59,14 +63,12 @@ class FuzzySegmentator(Module.Runtime):
             },
         )
 
-    def _segmentate(self, layer, mask, mask_add=None):
+    def _segmentate(self, layer, mask, mask_add=None, bias=None):
         params = self.Parameters(**self.parameters)
+        bf = params.factor
 
         t = filters.thresholding.threshold_otsu(layer)
-        t = (
-            (params.bias_factor * params.bias) + ((1 - params.bias_factor) * t)
-            if params.bias is not None else t
-        )
+        t = (bf * bias) + ((1 - bf) * t) if bias is not None else t
 
         cells_mask = np.where(layer >= t, True, False)
         if mask_add is not None:

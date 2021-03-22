@@ -1,5 +1,5 @@
 from dataclasses import dataclass, field
-from typing import Optional, Tuple
+from typing import Optional
 
 import numpy as np
 from skimage import color, exposure, morphology, filters, measure
@@ -24,11 +24,13 @@ class Segmentator(Module.Runtime):
     @dataclass(frozen=True)
     class Parameters:
         min_area: int
-        bias: Optional[Tuple[float, float]] = field(default=None)
-        bias_factor: float = field(default=0.5)
+        threshold_positive: Optional[float] = field(default=None)
+        threshold_all: Optional[float] = field(default=None)
+        factor: float = field(default=0.5)
 
     @with_logger
     def run(self, data: Module.ResultSet, **kwargs):
+        params = self.Parameters(**self.parameters)
         slide: Slide = data.get(Slide)
         mask: Mask = data.get(Mask)
 
@@ -41,6 +43,7 @@ class Segmentator(Module.Runtime):
                 out_range=(0, 1),
             ),
             hed_mask,
+            bias=params.threshold_positive,
         )
 
         all = self._segmentate(
@@ -50,6 +53,7 @@ class Segmentator(Module.Runtime):
             ),
             hed_mask,
             positive.mask,
+            bias=params.threshold_all,
         )
 
         return Cells(
@@ -60,8 +64,9 @@ class Segmentator(Module.Runtime):
             },
         )
 
-    def _segmentate(self, layer, mask, mask_add=None):
+    def _segmentate(self, layer, mask, mask_add=None, bias=None):
         params = self.Parameters(**self.parameters)
+        bf = params.factor
 
         if (np.all(mask == False)):  # noqa
             return Cells.CellsLabel(
@@ -71,10 +76,7 @@ class Segmentator(Module.Runtime):
             )
 
         t = filters.threshold_otsu(layer[mask])
-        t = (
-            (params.bias_factor * params.bias) + ((1 - params.bias_factor) * t)
-            if params.bias is not None else t
-        )
+        t = (bf * bias) + ((1 - bf) * t) if bias is not None else t
 
         cells_mask = (layer * mask)
         cells_mask = np.where(cells_mask >= t, True, False)
