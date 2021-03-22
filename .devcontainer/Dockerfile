@@ -22,7 +22,8 @@ RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
 
 # Install MiniForge (Conda)
 ARG CONDA=/opt/conda
-ARG PYTHON_VERSION=3.8.6
+# ARG PYTHON_VERSION=3.8.6
+ARG PYTHON_VERSION=3.7.9
 COPY .devcontainer/library-scripts/miniforge.sh /tmp/library-scripts/
 RUN mkdir $CONDA && chown -R ${USER_UID}:${USER_GID} ${CONDA} \
     && su vscode -c "bash /tmp/library-scripts/miniforge.sh \"${CONDA}\" \"${PYTHON_VERSION}\"" \

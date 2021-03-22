@@ -19,7 +19,7 @@ conda install -yq \
     'pycodestyle=2.6.*' \
     'pydocstyle=5.1.*' \
     'pyyaml=5.4.*' \
-    'scikit-image=0.18.*' \
+    'scikit-image=0.15.*' \
     'scikit-learn=0.24.*' \
     'seaborn=0.11.*' \
     'scipy=1.6.*' \
