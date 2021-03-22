@@ -7,6 +7,7 @@ from tqdm import tqdm
 from magda.module import Module
 from magda.decorators import finalize, produce, register, accept
 
+from ki67.common import Shared
 from ki67.modules.utils.logging import with_logger
 from ki67.interfaces.slide import Slide
 from ki67.interfaces.labels import Labels
@@ -24,11 +25,14 @@ class CNN(Module.Runtime):
     @dataclass(frozen=True)
     class Parameters:
         model: str
-        batch: int = field(default=64)
+        batch: int = field(default=128)
 
     def bootstrap(self):
+        shared = Shared(**self.shared_parameters)
         params = self.Parameters(**self.parameters)
-        self.model = DenseNet.create()
+        img_shape = (shared.fragment, shared.fragment, 3)
+
+        self.model = DenseNet.create(shape=img_shape)
         self.model.load_weights(params.model)
 
     @with_logger
@@ -57,11 +61,14 @@ class CNN(Module.Runtime):
         return data_generator, fragments.index
 
     def _get_dataset(self, slide: Slide, labels: Labels):
+        shared = Shared(**self.shared_parameters)
         params = self.Parameters(**self.parameters)
+        img_shape = (shared.fragment, shared.fragment, 3)
+
         ds, indices = self._get_data_generator(slide.image, labels.fragments)
         dataset = tf.data.Dataset.from_generator(
             generator=ds,
-            output_signature=tf.TensorSpec((192, 192, 3), dtype=tf.float32),
+            output_signature=tf.TensorSpec(img_shape, dtype=tf.float32),
         )
         dataset = dataset.batch(params.batch)
         dataset = dataset.prefetch(tf.data.AUTOTUNE)

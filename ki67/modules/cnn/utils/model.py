@@ -13,12 +13,13 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 # ==============================================================================
-""" The modified Keras implementation of DenseNet169.
+""" The modified Keras implementation of DenseNet121.
 
 Modifications:
 - rewritten the original Keras model class
 - reduced the batch normalization momentum
 """
+from typing import Tuple
 import tensorflow as tf
 
 
@@ -122,8 +123,8 @@ class DenseNet:
         return model
 
     @classmethod
-    def create(cls):
-        """ DenseNet169 """
-        img_input = tf.keras.layers.Input((192, 192, 3))
-        model = cls._DenseNet([6, 12, 32, 32], img_input)
+    def create(cls, shape: Tuple[int, int, int]):
+        """ DenseNet121 """
+        img_input = tf.keras.layers.Input(shape)
+        model = cls._DenseNet([6, 12, 24, 16], img_input)
         return model
