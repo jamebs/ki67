@@ -25,10 +25,9 @@ conda install -yq \
     'scipy=1.6.*' \
     'tqdm=4.59.*'
 
-echo "Installing Tensorflow..."
-pip install --quiet --no-cache-dir tensorflow==2.4
-
 echo "Installing pip dependencies..."
-pip install --quiet --no-cache-dir https://github.com/NeuroSYS-pl/magda/archive/main.zip
+pip install --no-cache-dir \
+    'tensorflow==2.4' \
+    'magda==0.1'
 
 conda clean --all -fyq
