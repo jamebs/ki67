@@ -25,7 +25,7 @@ class Segmentator(Module.Runtime):
     class Parameters:
         min_area: int
         threshold_positive: Optional[float] = field(default=None)
-        threshold_all: Optional[float] = field(default=None)
+        threshold_relevant: Optional[float] = field(default=None)
         factor: float = field(default=0.5)
 
     @with_logger
@@ -53,7 +53,7 @@ class Segmentator(Module.Runtime):
             ),
             hed_mask,
             positive.mask,
-            bias=params.threshold_all,
+            bias=params.threshold_relevant,
         )
 
         return Cells(

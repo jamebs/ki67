@@ -10,4 +10,7 @@
     "jupyter.notebookFileRoot": "/workspace/ki67",
     "remote.autoForwardPorts": false,
     "jupyter.jupyterServerType": "local",
+    "files.watcherExclude": {
+        "data/**": true
+    },
 }

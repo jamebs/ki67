@@ -1,0 +1,58 @@
+modules:
+  - name: slide
+    type: SlideImporter
+    group: default
+    parameters:
+      filename: base
+
+  - name: crisp-mask
+    type: MaskImporter
+    group: default
+    parameters:
+      filename: crisp-mask-charlie
+
+  - name: crisp-cells
+    type: Segmentator
+    group: default
+    depends_on:
+      - slide
+      - crisp-mask
+    parameters:
+      min_area: 144
+      threshold_positive: 0.45004761231145235
+      threshold_relevant: 0.3655856929846733
+
+  - name: crisp-cells-exporter
+    type: Exporter
+    group: default
+    depends_on:
+      - crisp-cells
+    parameters:
+      filename: crisp-cells-biased-charlie
+
+  - name: preview
+    type: CellsPreview
+    group: default
+    depends_on:
+      - slide
+      - crisp-cells
+
+  - name: crisp-cells-preview-exporter
+    type: Exporter
+    group: default
+    depends_on:
+      - preview
+    parameters:
+      filename: crisp-cells-biased-preview-charlie
+
+
+groups:
+  - name: default
+    options:
+      replicas: 8
+
+
+shared_parameters:
+  source: data/source
+  target: data/results
+  fragment: 96

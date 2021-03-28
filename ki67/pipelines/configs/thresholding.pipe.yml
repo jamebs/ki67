@@ -1,0 +1,56 @@
+modules:
+  - name: slide
+    type: SlideImporter
+    group: default
+    parameters:
+      filename: base
+
+  - name: mask
+    type: MaskImporter
+    group: default
+    parameters:
+      filename: gt-roi
+
+  - name: cells
+    type: Segmentator
+    group: default
+    depends_on:
+      - slide
+      - mask
+    parameters:
+      min_area: 144
+
+  - name: cells-exporter
+    type: Exporter
+    group: default
+    depends_on:
+      - cells
+    parameters:
+      filename: th-training
+
+  - name: preview
+    type: CellsPreview
+    group: default
+    depends_on:
+      - slide
+      - cells
+
+  - name: cells-preview-exporter
+    type: Exporter
+    group: default
+    depends_on:
+      - preview
+    parameters:
+      filename: th-training-preview
+
+
+groups:
+  - name: default
+    options:
+      replicas: 8
+
+
+shared_parameters:
+  source: data/source
+  target: data/results
+  fragment: 96
