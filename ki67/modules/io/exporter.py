@@ -16,15 +16,13 @@ from ki67.interfaces.labels import Labels
 from ki67.interfaces.predictions import Predictions
 from ki67.interfaces.train_examples import TrainExamples
 from ki67.interfaces.cells import Cells
-from ki67.interfaces.fuzzy_cells import FuzzyCells
 from ki67.services.io import DataIO
 
 
 @accept(
     Slide, Image, Mask,
     Markers, Fragments,
-    Labels, Predictions,
-    Cells, FuzzyCells,
+    Labels, Predictions, Cells,
     TrainExamples,
 )
 @register('Exporter')
@@ -79,9 +77,6 @@ class Exporter(Module.Runtime):
         elif data.has(Cells):
             cells: Cells = data.get(Cells)
             io.multiarray.save(params.filename, **cells.serialize())
-        elif data.has(FuzzyCells):
-            fuzzy: FuzzyCells = data.get(FuzzyCells)
-            io.multiarray.save(params.filename, **fuzzy.serialize())
         elif data.has(TrainExamples):
             asset: TrainExamples = data.get(TrainExamples)
             io.multiarray.save(

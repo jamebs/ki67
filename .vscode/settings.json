@@ -11,6 +11,8 @@
     "remote.autoForwardPorts": false,
     "jupyter.jupyterServerType": "local",
     "files.watcherExclude": {
-        "data/**": true
+        "**/data/**": true,
+        "**/typings/**": true
     },
+    "python.terminal.activateEnvironment": false,
 }
