@@ -35,6 +35,7 @@ class EnsemblePredictions(Module.Runtime):
 
         df['prediction'] = (
             df[list(params.classifiers.values())]
+            .round()
             .mean(axis=1)
             .round()
             .astype(np.bool)

@@ -22,9 +22,10 @@ class Fuzzificator(Module.Runtime):
         predictions: Predictions = data.get(Predictions)
 
         df = predictions.predictions
+        positive = df.prediction.round().astype(bool)
 
         mask = np.zeros(slide.image.shape[:2])
-        for _, entry in df[df.prediction].iterrows():
+        for _, entry in df[positive].iterrows():
             mask[entry.y1:entry.y2, entry.x1:entry.x2] += 1
         mask = exposure.rescale_intensity(mask, out_range=(0, 1))
 

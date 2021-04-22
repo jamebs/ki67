@@ -1,9 +1,9 @@
+from os import environ
 from dataclasses import dataclass, field
 
 import numpy as np
 import pandas as pd
 import tensorflow as tf
-from tqdm import tqdm
 from magda.module import Module
 from magda.decorators import finalize, produce, register, accept
 
@@ -13,6 +13,9 @@ from ki67.interfaces.slide import Slide
 from ki67.interfaces.labels import Labels
 from ki67.interfaces.predictions import Predictions
 from .utils.model import DenseNet
+
+
+environ['TF_CPP_MIN_LOG_LEVEL'] = '1'
 
 
 @accept(Slide, Labels)
@@ -42,10 +45,10 @@ class CNN(Module.Runtime):
 
         dataset, indices = self._get_dataset(slide, labels)
         raw_predictions = self.model.predict(dataset)
-        y = raw_predictions.flatten().round().astype(bool)
+        y = raw_predictions.flatten()
         predictions = self._prepare_df(
             labels.fragments,
-            pd.Series(y, index=indices, dtype=bool),
+            pd.Series(y, index=indices),
         )
 
         return Predictions(
