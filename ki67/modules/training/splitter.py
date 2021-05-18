@@ -23,13 +23,13 @@ class Splitter(Module.Runtime):
     class Parameters:
         shards: List[str]
         testing: int
+        experiments: str
         force: bool = field(default=False)
 
     @with_logger
     def run(self, request: Request, **kwargs):
-        shared = Shared(**self.shared_parameters)
         params = self.Parameters(**self.parameters)
-        config = Path(shared.experiments) / request.uid / 'config.json'
+        config = Path(params.experiments) / request.uid / 'config.json'
 
         if config.exists() and not params.force:
             data = self.load(config)

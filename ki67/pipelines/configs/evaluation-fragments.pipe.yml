@@ -17,7 +17,7 @@ modules:
     depends_on:
       - slide
     parameters:
-      step: 16
+      step: ${stride}
 
   - name: labeler
     type: Labeler
@@ -27,7 +27,7 @@ modules:
       - markers
       - fragmentator
     parameters:
-      margin: 8
+      margin: ${margin}
 
   - name: labeler-exporter
     type: Exporter
@@ -35,7 +35,7 @@ modules:
     depends_on:
       - labeler
     parameters:
-      filename: labels-f96-s16-m8
+      filename: labels-f${size}-s${stride}-m${margin}
 
 
 groups:
@@ -47,5 +47,4 @@ groups:
 shared_parameters:
   source: data/source
   target: data/results
-  experiments: data/experiments
-  fragment: 96
+  fragment: ${size}

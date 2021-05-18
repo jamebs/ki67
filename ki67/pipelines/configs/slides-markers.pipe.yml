@@ -9,7 +9,7 @@ modules:
     depends_on:
       - loader
     parameters:
-      stride: 16
+      stride: ${stride}
 
   - name: base-exporter
     type: Exporter
@@ -25,7 +25,7 @@ modules:
     depends_on:
       - cropper
     parameters:
-      kernel: 64
+      kernel: ${equalizer_kernel}
 
   - name: adjusted-exporter
     type: Exporter
@@ -78,7 +78,7 @@ modules:
     depends_on:
       - markers-roi-preview
     parameters:
-      filename: gt-roi-preview
+      filename: preview-gt-roi
 
   - name: markers-preview
     type: MarkersPreview
@@ -93,7 +93,7 @@ modules:
     depends_on:
       - markers-preview
     parameters:
-      filename: markers-preview
+      filename: preview-markers
 
 
 groups:
@@ -109,4 +109,4 @@ groups:
 shared_parameters:
   source: data/source
   target: data/results
-  fragment: 96
+  fragment: ${size}

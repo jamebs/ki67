@@ -12,7 +12,6 @@ class Shared:
     source: str
     target: str
     fragment: int
-    experiments: Optional[str] = field(default=None)
 
 
 @dataclass(frozen=True)

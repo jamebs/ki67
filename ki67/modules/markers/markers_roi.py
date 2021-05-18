@@ -25,8 +25,9 @@ class MarkersRoi(Module.Runtime):
 
         for _, marker in markers.markers.iterrows():
             x, y = marker['x'], marker['y']
-            yy, xx = draw.disk(
-                center=(int(y), int(x)),
+            yy, xx = draw.circle(
+                r=int(y),
+                c=int(x),
                 radius=24,
                 shape=mask.shape[:2],
             )

@@ -53,4 +53,4 @@ groups:
 shared_parameters:
   source: data/source
   target: data/results
-  fragment: 96
+  fragment: ${size}

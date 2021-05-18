@@ -5,11 +5,11 @@ modules:
     parameters:
       filename: base
 
-  - name: prediction-ben
+  - name: prediction
     type: PredictionImporter
     group: default
     parameters:
-      filename: predictions-f96-s16-m8-ben
+      filename: predictions-f${size}-s${stride}-m${margin}-${model}
 
   # Fuzzy Mask
   - name: fuzzy-mask
@@ -17,7 +17,7 @@ modules:
     group: default
     depends_on:
       - slide
-      - prediction-ben
+      - prediction
 
   - name: fuzzy-mask-exporter
     type: Exporter
@@ -25,7 +25,7 @@ modules:
     depends_on:
       - fuzzy-mask
     parameters:
-      filename: fuzzy-mask-ben
+      filename: fuzzy-mask-f${size}-${model}
 
   - name: fuzzy-mask-roi-preview
     type: MaskRoiPreview
@@ -40,7 +40,7 @@ modules:
     depends_on:
       - fuzzy-mask-roi-preview
     parameters:
-      filename: fuzzy-mask-roi-preview-ben
+      filename: preview-fuzzy-mask-f${size}-${model}
 
   # Crips Mask
   - name: crisp-mask
@@ -49,8 +49,8 @@ modules:
     depends_on:
       - fuzzy-mask
     parameters:
-      kernel: 16
-      min_area: 18432 # 2*96*96
+      kernel: ${mask_kernel}
+      min_area: ${min_area}
       threshold: 0.5
 
   - name: crisp-mask-exporter
@@ -59,7 +59,7 @@ modules:
     depends_on:
       - crisp-mask
     parameters:
-      filename: crisp-mask-ben
+      filename: crisp-mask-f${size}-${model}
 
   - name: crisp-mask-roi-preview
     type: MaskRoiPreview
@@ -74,7 +74,7 @@ modules:
     depends_on:
       - crisp-mask-roi-preview
     parameters:
-      filename: crisp-mask-roi-preview-ben
+      filename: preview-crisp-mask-f${size}-${model}
 
 groups:
   - name: default
@@ -85,4 +85,4 @@ groups:
 shared_parameters:
   source: data/source
   target: data/results
-  fragment: 96
+  fragment: ${size}

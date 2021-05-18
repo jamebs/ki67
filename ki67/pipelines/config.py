@@ -1,4 +1,5 @@
 from pathlib import Path
+from typing import Dict
 
 from magda import ConfigReader
 from magda.pipeline.parallel import ParallelPipeline
@@ -8,10 +9,11 @@ from .base import BasePipeline
 
 
 class ConfigPipeline(BasePipeline):
-    def build(self, config_path: Path):
+    async def build(self, config_path: Path, params: Dict):
         with open(config_path) as config:
-            self.pipeline: ParallelPipeline.Runtime = ConfigReader.read(
-                config=config,
+            self.pipeline: ParallelPipeline.Runtime = await ConfigReader.read(
+                config=config.read(),
                 module_factory=self.factory,
+                config_parameters=params,
                 context=self.context,
             )

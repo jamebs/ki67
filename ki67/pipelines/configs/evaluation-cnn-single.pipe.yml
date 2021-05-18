@@ -9,8 +9,8 @@ modules:
     type: LabelerImporter
     group: default
     parameters:
-      filename: labels-f96-s16-m8
-      margin: 8
+      filename: labels-f${size}-s${stride}-m${margin}
+      margin: ${margin}
 
   - name: cnn
     type: CNN
@@ -19,7 +19,7 @@ modules:
       - slide
       - labeler-importer
     parameters:
-      model: data/experiments/densenet121-f96-s96-m8-rgb/Ben/weights.hdf5
+      model: data/experiments/densenet121-f${size}-s${size}-m${margin}/${model}/weights.hdf5
 
   - name: prediction-exporter
     type: Exporter
@@ -27,7 +27,7 @@ modules:
     depends_on:
       - cnn
     parameters:
-      filename: predictions-f96-s16-m8-ben
+      filename: predictions-f${size}-s${stride}-m${margin}-${model}
 
 groups:
   - name: default
@@ -39,5 +39,4 @@ groups:
 shared_parameters:
   source: data/source
   target: data/results
-  experiments: data/experiments
-  fragment: 96
+  fragment: ${size}

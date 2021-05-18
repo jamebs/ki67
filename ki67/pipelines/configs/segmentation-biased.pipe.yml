@@ -9,9 +9,9 @@ modules:
     type: MaskImporter
     group: default
     parameters:
-      filename: crisp-mask-amy
+      filename: crisp-mask-f${size}-${model}
 
-  - name: crisp-cells
+  - name: cells
     type: Segmentator
     group: default
     depends_on:
@@ -19,31 +19,31 @@ modules:
       - crisp-mask
     parameters:
       min_area: 144
-      threshold_positive: 0.44252495851557805
-      threshold_relevant: 0.37113696507030647
+      threshold_positive: ${threshold_positive}
+      threshold_relevant: ${threshold_relevant}
 
-  - name: crisp-cells-exporter
+  - name: cells-exporter
     type: Exporter
     group: default
     depends_on:
-      - crisp-cells
+      - cells
     parameters:
-      filename: crisp-cells-biased-amy
+      filename: biased-cells-f${size}-${model}
 
   - name: preview
     type: CellsPreview
     group: default
     depends_on:
       - slide
-      - crisp-cells
+      - cells
 
-  - name: crisp-cells-preview-exporter
+  - name: cells-preview-exporter
     type: Exporter
     group: default
     depends_on:
       - preview
     parameters:
-      filename: crisp-cells-biased-preview-amy
+      filename: preview-biased-cells-f${size}-${model}
 
 
 groups:
@@ -55,4 +55,4 @@ groups:
 shared_parameters:
   source: data/source
   target: data/results
-  fragment: 96
+  fragment: ${size}

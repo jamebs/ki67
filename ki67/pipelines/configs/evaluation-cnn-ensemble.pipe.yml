@@ -3,19 +3,19 @@ modules:
     type: PredictionImporter
     group: default
     parameters:
-      filename: predictions-f96-s16-m8-amy
+      filename: predictions-f${size}-s${stride}-m${margin}-amy
 
   - name: prediction-ben
     type: PredictionImporter
     group: default
     parameters:
-      filename: predictions-f96-s16-m8-ben
+      filename: predictions-f${size}-s${stride}-m${margin}-ben
 
   - name: prediction-charlie
     type: PredictionImporter
     group: default
     parameters:
-      filename: predictions-f96-s16-m8-charlie
+      filename: predictions-f${size}-s${stride}-m${margin}-charlie
 
   - name: prediction-ensemble
     type: EnsemblePredictions
@@ -36,7 +36,7 @@ modules:
     depends_on:
       - prediction-ensemble
     parameters:
-      filename: predictions-f96-s16-m8-ensemble
+      filename: predictions-f${size}-s${stride}-m${margin}-ensemble
 
 groups:
   - name: default
@@ -47,5 +47,4 @@ groups:
 shared_parameters:
   source: data/source
   target: data/results
-  experiments: data/experiments
-  fragment: 96
+  fragment: ${size}

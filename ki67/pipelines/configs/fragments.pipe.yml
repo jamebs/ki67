@@ -17,7 +17,7 @@ modules:
     depends_on:
       - slide
     parameters:
-      step: 96
+      step: ${training_stride}
 
   - name: labeler
     type: Labeler
@@ -27,7 +27,7 @@ modules:
       - markers
       - fragmentator
     parameters:
-      margin: 8
+      margin: ${margin}
 
   - name: examples-builder
     type: ExamplesBuilder
@@ -36,7 +36,7 @@ modules:
       - slide
       - labeler
     parameters:
-      filename: examples-f96-s96-m8
+      filename: examples-f${size}-s${training_stride}-m${margin}
 
 
 groups:
@@ -48,4 +48,4 @@ groups:
 shared_parameters:
   source: data/source
   target: data/results
-  fragment: 96
+  fragment: ${size}

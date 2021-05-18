@@ -7,9 +7,9 @@ modules:
         - Amy
         - Ben
         - Charlie
+      experiments: data/experiments
 
 shared_parameters:
   source: data/source
   target: data/results
-  experiments: data/experiments
-  fragment: 64
+  fragment: ${size}
