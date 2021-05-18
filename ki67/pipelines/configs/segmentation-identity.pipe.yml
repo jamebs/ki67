@@ -1,0 +1,56 @@
+modules:
+  - name: slide
+    type: SlideImporter
+    group: default
+    parameters:
+      filename: base
+
+  - name: identity-mask
+    type: IdentityMask
+    group: default
+    depends_on:
+      - slide
+
+  - name: cells
+    type: Segmentator
+    group: default
+    depends_on:
+      - slide
+      - identity-mask
+    parameters:
+      min_area: 144
+
+  - name: cells-exporter
+    type: Exporter
+    group: default
+    depends_on:
+      - cells
+    parameters:
+      filename: cells-identity
+
+  - name: preview
+    type: CellsPreview
+    group: default
+    depends_on:
+      - slide
+      - cells
+
+  - name: cells-preview-exporter
+    type: Exporter
+    group: default
+    depends_on:
+      - preview
+    parameters:
+      filename: preview-cells-identity
+
+
+groups:
+  - name: default
+    options:
+      replicas: 8
+
+
+shared_parameters:
+  source: data/source
+  target: data/results
+  fragment: 0
