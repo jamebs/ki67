@@ -4,9 +4,9 @@ modules:
     parameters:
       testing: 20
       shards:
-        - Amy
-        - Ben
-        - Charlie
+        - amy
+        - ben
+        - charlie
       experiments: data/experiments
 
 shared_parameters:
