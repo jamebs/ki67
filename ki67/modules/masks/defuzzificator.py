@@ -5,7 +5,6 @@ from skimage import morphology as morph
 from magda.module import Module
 from magda.decorators import finalize, produce, register, accept
 
-from ki67.modules.utils.logging import with_logger
 from ki67.interfaces.mask import Mask
 
 
@@ -22,7 +21,6 @@ class Defuzzificator(Module.Runtime):
         min_area: int
         threshold: float
 
-    @with_logger
     def run(self, data: Module.ResultSet, **kwargs):
         params = self.Parameters(**self.parameters)
         fuzzy_mask: Mask = data.get(Mask)

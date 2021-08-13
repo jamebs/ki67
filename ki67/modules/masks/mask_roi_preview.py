@@ -2,7 +2,6 @@ import numpy as np
 from magda.module import Module
 from magda.decorators import finalize, accept, produce, register
 
-from ki67.modules.utils.logging import with_logger
 from ki67.interfaces.slide import Slide
 from ki67.interfaces.image import Image
 from ki67.interfaces.mask import Mask
@@ -15,7 +14,6 @@ from ki67.interfaces.mask import Mask
 class MaskRoiPreview(Module.Runtime):
     """ Mask ROI Preview """
 
-    @with_logger
     def run(self, data: Module.ResultSet, **kwargs):
         slide: Slide = data.get(Slide)
         mask: Mask = data.get(Mask)

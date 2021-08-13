@@ -4,7 +4,6 @@ import numpy as np
 from magda.module import Module
 from magda.decorators import finalize, produce, register, accept
 
-from ki67.modules.utils.logging import with_logger
 from ki67.interfaces.slide import Slide
 from ki67.interfaces.fragments import Fragments
 from ki67.interfaces.markers import Markers
@@ -22,7 +21,6 @@ class Labeler(Module.Runtime):
     class Parameters:
         margin: int
 
-    @with_logger
     def run(self, data: Module.ResultSet, **kwargs):
         params = self.Parameters(margin=int(self.parameters['margin']))
 

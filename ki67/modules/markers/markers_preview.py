@@ -3,7 +3,6 @@ from skimage import draw
 from magda.module import Module
 from magda.decorators import finalize, accept, produce, register
 
-from ki67.modules.utils.logging import with_logger
 from ki67.interfaces.slide import Slide
 from ki67.interfaces.markers import Markers
 from ki67.interfaces.image import Image
@@ -18,7 +17,6 @@ class MarkersPreview(Module.Runtime):
 
     colors = [None, (255, 0, 0), (0, 255, 0)]
 
-    @with_logger
     def run(self, data: Module.ResultSet, **kwargs):
         slide: Slide = data.get(Slide)
         markers: Markers = data.get(Markers)

@@ -5,7 +5,6 @@ from magda.module import Module
 from magda.decorators import finalize, register, accept
 
 from ki67.common import Request, Shared
-from ki67.modules.utils.logging import with_logger
 from ki67.interfaces.slide import Slide
 from ki67.interfaces.labels import Labels
 from ki67.services.io import DataIO
@@ -22,7 +21,6 @@ class ExamplesBuilder(Module.Runtime):
     class Parameters:
         filename: str
 
-    @with_logger
     def run(self, data: Module.ResultSet, request: Request, **kwargs):
         shared = Shared(**self.shared_parameters)
         params = self.Parameters(**self.parameters)

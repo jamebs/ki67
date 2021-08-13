@@ -6,6 +6,9 @@ from typing import Optional
 class Request:
     uid: str
 
+    def __str__(self) -> str:
+        return f'Slide({self.uid})'
+
 
 @dataclass(frozen=True)
 class Shared:

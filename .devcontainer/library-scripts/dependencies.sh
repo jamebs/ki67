@@ -8,12 +8,10 @@ set -e
 
 echo "Installing conda dependencies..."
 conda install -yq \
-    'dask=2021.2.*' \
     'fastparquet=0.5.*' \
     'ipykernel=5.4.*' \
     'ipywidgets=7.6.*' \
     'matplotlib-base=3.3.*' \
-    'numba=0.52.*' \
     'numpy=1.19.*' \
     'pandas=1.2.*' \
     'pycodestyle=2.6.*' \
@@ -28,6 +26,6 @@ conda install -yq \
 echo "Installing pip dependencies..."
 pip install --no-cache-dir \
     'tensorflow==2.4' \
-    'magda==0.1'
+    'https://github.com/NeuroSYS-pl/magda/archive/25abec214ff7c6969df2ec199f6f7cec108efcca.zip'
 
 conda clean --all -fyq

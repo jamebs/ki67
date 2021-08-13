@@ -2,6 +2,7 @@ from pathlib import Path
 from typing import Dict
 
 from magda import ConfigReader
+from magda.utils import MagdaLogger
 from magda.pipeline.parallel import ParallelPipeline
 
 import ki67.modules as modules
@@ -16,4 +17,5 @@ class ConfigPipeline(BasePipeline):
                 module_factory=self.factory,
                 config_parameters=params,
                 context=self.context,
+                logger=MagdaLogger.Config(),
             )

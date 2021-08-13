@@ -5,7 +5,6 @@ from magda.module import Module
 
 from ki67.common import Request, Shared
 from ki67.interfaces.markers import Markers
-from ki67.modules.utils.logging import with_logger
 from ki67.services.io import DataIO
 
 
@@ -19,7 +18,6 @@ class MarkersImporter(Module.Runtime):
     class Parameters:
         filename: str
 
-    @with_logger
     def run(self, request: Request, **kwargs):
         shared = Shared(**self.shared_parameters)
         params = self.Parameters(**self.parameters)

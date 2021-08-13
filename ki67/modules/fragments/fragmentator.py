@@ -4,7 +4,6 @@ from magda.module import Module
 from magda.decorators import finalize, produce, register, accept
 
 from ki67.common import Shared
-from ki67.modules.utils.logging import with_logger
 from ki67.interfaces.slide import Slide
 from ki67.interfaces.fragments import Fragments
 
@@ -20,7 +19,6 @@ class Fragmentator(Module.Runtime):
     class Parameters:
         step: int
 
-    @with_logger
     def run(self, data: Module.ResultSet, **kwargs):
         shared = Shared(**self.shared_parameters)
         params = self.Parameters(**self.parameters)

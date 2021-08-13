@@ -3,7 +3,6 @@ from skimage import segmentation
 from magda.module import Module
 from magda.decorators import finalize, produce, register, accept
 
-from ki67.modules.utils.logging import with_logger
 from ki67.interfaces.slide import Slide
 from ki67.interfaces.cells import Cells
 from ki67.interfaces.image import Image
@@ -16,7 +15,6 @@ from ki67.interfaces.image import Image
 class CellsPreview(Module.Runtime):
     """ Cells Preview """
 
-    @with_logger
     def run(self, data: Module.ResultSet, **kwargs):
         slide: Slide = data.get(Slide)
         cells: Cells = data.get(Cells)

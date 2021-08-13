@@ -5,7 +5,6 @@ from magda.module import Module
 from magda.decorators import finalize, produce, register, accept
 from skimage import exposure
 
-from ki67.modules.utils.logging import with_logger
 from ki67.interfaces.slide import Slide
 
 
@@ -20,7 +19,6 @@ class SlideEqualizer(Module.Runtime):
     class Parameters:
         kernel: int
 
-    @with_logger
     def run(self, data: Module.ResultSet, **kwargs):
         params = self.Parameters(**self.parameters)
         slide: Slide = data.get(Slide)

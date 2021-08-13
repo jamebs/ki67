@@ -8,7 +8,6 @@ from magda.module import Module
 from magda.decorators import finalize, produce, register, accept
 
 from ki67.common import Shared
-from ki67.modules.utils.logging import with_logger
 from ki67.interfaces.slide import Slide
 from ki67.interfaces.labels import Labels
 from ki67.interfaces.predictions import Predictions
@@ -38,7 +37,6 @@ class CNN(Module.Runtime):
         self.model = DenseNet.create(shape=img_shape)
         self.model.load_weights(params.model)
 
-    @with_logger
     def run(self, data: Module.ResultSet, **kwargs):
         slide: Slide = data.get(Slide)
         labels: Labels = data.get(Labels)

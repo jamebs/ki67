@@ -8,7 +8,6 @@ from magda.module import Module
 from magda.decorators import finalize, produce, register, expose
 
 from ki67.common import Request, Shared
-from ki67.modules.utils.logging import with_logger
 from ki67.interfaces.shards import Shards
 
 
@@ -26,7 +25,6 @@ class Splitter(Module.Runtime):
         experiments: str
         force: bool = field(default=False)
 
-    @with_logger
     def run(self, request: Request, **kwargs):
         params = self.Parameters(**self.parameters)
         config = Path(params.experiments) / request.uid / 'config.json'

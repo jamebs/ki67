@@ -5,7 +5,6 @@ from magda.decorators import finalize, produce, register
 from skimage import io
 
 from ki67.common import Request, Shared
-from ki67.modules.utils.logging import with_logger
 from ki67.interfaces.slide import Slide
 
 
@@ -15,7 +14,6 @@ from ki67.interfaces.slide import Slide
 class SlideLoader(Module.Runtime):
     """ Slide Loader """
 
-    @with_logger
     def run(self, request: Request, **kwargs):
         uid = request.uid
         shared = Shared(**self.shared_parameters)
