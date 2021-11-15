@@ -1,3 +1,6 @@
+from dataclasses import dataclass
+from typing import Optional
+
 import numpy as np
 from skimage import draw
 from magda.module import Module
@@ -17,13 +20,19 @@ class MarkersPreview(Module.Runtime):
 
     colors = [None, (255, 0, 0), (0, 255, 0)]
 
+    @dataclass(frozen=True)
+    class Parameters:
+        radius: Optional[int] = None
+        size: Optional[int] = None
+
     def run(self, data: Module.ResultSet, **kwargs):
         slide: Slide = data.get(Slide)
         markers: Markers = data.get(Markers)
+        params = self.Parameters(**self.parameters)
 
         preview = slide.image[:, :, :3].copy()
-        marker_radius = np.max(preview.shape) // 250
-        marker_size = np.max(preview.shape) // 650
+        marker_radius = params.radius or (np.max(preview.shape) // 250)
+        marker_size = params.size or (np.max(preview.shape) // 650)
 
         for _, marker in markers.markers.iterrows():
             for i in range(marker_size):
