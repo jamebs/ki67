@@ -34,6 +34,8 @@ class Segmentator(Module.Runtime):
 
         hed = color.rgb2hed(slide.image[:, :, :3])
         hed_mask = mask.data.astype(bool)
+        if np.all(~hed_mask):
+            hed_mask[:] = True
 
         positive = self._segmentate(
             exposure.rescale_intensity(
@@ -65,13 +67,6 @@ class Segmentator(Module.Runtime):
     def _segmentate(self, layer, mask, mask_add=None, bias=None):
         params = self.Parameters(**self.parameters)
         bf = params.factor
-
-        if (np.all(mask == False)):  # noqa
-            return Cells.CellsLabel(
-                mask=np.zeros_like(mask, dtype=np.bool),
-                labels=np.zeros_like(mask, dtype=np.uint16),
-                threshold=np.NaN,
-            )
 
         t = filters.threshold_otsu(layer[mask])
         t = (bf * bias) + ((1 - bf) * t) if bias is not None else t
