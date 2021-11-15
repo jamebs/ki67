@@ -1,0 +1,48 @@
+modules:
+  - name: loader
+    type: SlideLoader
+    group: default
+
+  - name: cropper
+    type: SlideCropper
+    group: default
+    depends_on:
+      - loader
+    parameters:
+      stride: 1
+
+  - name: markers
+    type: MarkersProcessor
+    group: default
+    depends_on:
+      - cropper
+
+  - name: markers-preview
+    type: MarkersPreview
+    group: default
+    depends_on:
+      - cropper
+      - markers
+    parameters:
+      radius: 3
+      size: 2
+
+  - name: markers-preview-exporter
+    type: Exporter
+    group: default
+    depends_on:
+      - markers-preview
+    parameters:
+      filename: ihc
+
+
+groups:
+  - name: default
+    options:
+      replicas: 6
+
+
+shared_parameters:
+  source: data/source
+  target: data/results
+  fragment: 1
