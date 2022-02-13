@@ -39,7 +39,7 @@ modules:
 groups:
   - name: default
     options:
-      replicas: 6
+      replicas: 2
 
 
 shared_parameters:

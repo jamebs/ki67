@@ -33,7 +33,6 @@ groups:
   - name: default
     options:
       replicas: 2
-      num_gpus: 1
 
 
 shared_parameters:

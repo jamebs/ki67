@@ -99,11 +99,11 @@ modules:
 groups:
   - name: slide
     options:
-      replicas: 6
+      replicas: 2
 
   - name: markers
     options:
-      replicas: 6
+      replicas: 2
 
 
 shared_parameters:
