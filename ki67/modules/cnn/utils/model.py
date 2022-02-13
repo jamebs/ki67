@@ -1,5 +1,5 @@
 # Copyright 2018 The TensorFlow Authors. All Rights Reserved.
-# Modifications Copyright 2021 The Repository Author.
+# Modifications Copyright 2021 Jakub Blaszczyk.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -16,7 +16,7 @@
 """ The modified Keras implementation of DenseNet121.
 
 Modifications:
-- rewritten the original Keras model class
+- refactor of the original Keras model class
 - reduced the batch normalization momentum
 """
 from typing import Tuple
