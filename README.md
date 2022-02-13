@@ -1,48 +1,63 @@
-# Ki67 Proliferation Index
+# Assessment of Ki-67 proliferation index with deep learning in DCIS (ductal carcinoma in situ)
 
 ## Repository structure
 
 1. `.devcontainer`\
 Docker container specification and setup scripts
 2. `.vscode`\
-VSCode settings and recommended extensions
+VS Code settings and recommended extensions
 3. `data`\
 Contains the input/output images and results
 4. `ki67`\
 Core python scripts of the presented solution
 5. `notebooks`\
-Jupyter Notebooks containing performed experiments
+Jupyter Notebook containing model training
+6. `main.py`\
+Entry script
 
-| The whole solution and experiments are built with the [MAGDA :girl:](https://github.com/NeuroSYS-pl/magda) library |
+| The whole solution and experiments are built upon the [MAGDA :girl:](https://github.com/NeuroSYS-pl/magda) library |
 |----|
-| You can find many modules performing a single action on the data. These modules are combined into a pipeline depending on the purpose. The pipelines' config you can find in [ki67/pipelines/configs](ki67/pipelines/configs) directory. |
+
+Within the `ki67` folder you can find:
+- `interfaces`\
+  with *Data Transfer Objects* used by modules
+- `modules`\
+  with *single-responsibility* pieces of the solution, grouped by their logical roles
+- `pipelines`\
+  with YML configs describing the experiments/data flow and helper classes to run them
+- `services`\
+  helper classes used by the modules
+
+The modules are combined into a pipeline depending on their purpose. You can find
+pipelines in [ki67/pipelines/configs](ki67/pipelines/configs) directory.
+You can run them with the `main.py` script.
 
 ## Quick Start
 
-| Prerequisites |
-|---|
-| [Docker](https://www.docker.com/) |
-| [Docker Compose](https://docs.docker.com/compose/install/) |
-| [Nvidia Docker](https://github.com/NVIDIA/nvidia-docker) |
+### Setup
 
-### (a) Visual Studio Code (recommended)
+Prerequisites:
+- [Docker](https://www.docker.com/)
+- [Docker Compose](https://docs.docker.com/compose/install/)
+
+#### (a) Visual Studio Code
 
 1. Open project in Visual Studio Code
 2. Ensure you have installed [Remote Development Extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.vscode-remote-extensionpack) (`ms-vscode-remote.vscode-remote-extensionpack`)
 3. Type command (`F1`): `Remote-Containers: Reopen in Container` (the docker container will be created according to [devcontainer specification](.devcontainer/devcontainer.json))
 
-### (b) Docker
+#### (b) Manual
 
-1. Run `docker-compose up -d --build` to build and start container
-2. Attach to the created container
-3. Each script/experiment/notebook should be run inside the container
+1. Make sure you have installed `Python 3.7` and `pip`.
+2. Install all dependencies listed in [requirements.txt](requirements.txt).
 
-### (c) Manual
+| ⚠️ The prepared `.devcontainer` doesn't work with GPU ⚠️ |
+|---|
+| Install dependencies manually or run the repository within the [nvidia/cuda](https://hub.docker.com/r/nvidia/cuda) container to enable GPU(s) |
 
-1. Make sure you have installed [conda](https://docs.conda.io/en/latest/).
-2. Install all dependencies listed in [the setup script](.devcontainer/library-scripts/dependencies.sh).
+### Preparing data
 
-## Preparing data
+Move your data to the specific folders:
 
 **Example files structure BEFORE performing experiments**
 ```
@@ -59,7 +74,7 @@ Jupyter Notebooks containing performed experiments
   └── img-095.xml
 ```
 
-The `source` directory contains all slides (pROI saved as `png` files) and correspoding markers (ImageJ export to `xml` files). The config file splits images into chunks, e.g.
+The `source` directory should contain all slides (pROI saved as `.png` files) and correspoding markers (exported by ImageJ to `.xml` files). The config file splits images into chunks, e.g.
 
 **config.json**
 ```json
@@ -73,7 +88,7 @@ The `source` directory contains all slides (pROI saved as `png` files) and corre
 }
 ```
 
-After performing training (each models is saved within the `data/experiments` directory) and evaluating source images (all results are saved within the corresponding directories in `data/results`) the files structures should look like:
+After performing training (each model is saved within the `data/experiments` directory) and evaluating the source images (all results are saved within the corresponding directories in `data/results`) the files structures should look like:
 
 **Example files structure AFTER training and experiments**
 ```
@@ -106,6 +121,16 @@ After performing training (each models is saved within the `data/experiments` di
   ├── img-095.png
   └── img-095.xml
 ```
+
+| 💡 In case of different data format 💡 |
+|---|
+| You can modify and combine modules into a new pipelines to adjust the solution to your data format. |
+
+### Running solution
+
+You can run solution through `main.py` which invokes the pipelines. Please note that
+some pipelines should be run **before** and some **after training**. You can find
+the appropriate comments within the script.
 
 ## License
 
