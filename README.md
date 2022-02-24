@@ -1,4 +1,4 @@
-# Assessment of Ki-67 proliferation index with deep learning in DCIS (ductal carcinoma in situ)
+# [Assessment of Ki-67 proliferation index with deep learning in DCIS (ductal carcinoma in situ)](https://www.nature.com/articles/s41598-022-06555-3)
 
 ## Repository structure
 
